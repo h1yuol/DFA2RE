@@ -1,5 +1,6 @@
 import pickle
 from model.utils import get_dfa
+from pathlib import Path
 
 def get_graph(args, method='reduced'):
     """
@@ -7,11 +8,14 @@ def get_graph(args, method='reduced'):
     """
     assert method in ['reduced', 'vanilla']
 
-    if args.new:
+    cache_dir = Path(args.cache)
+    cache_dir.mkdir(parents=True, exist_ok=True)
+
+    if args.new or not (cache_dir/args.dfa).exists():
         n, edges, start, accepts, state2idx = get_dfa()
-        pickle.dump((n, edges, start, accepts, state2idx), open(args.dfa, 'wb'))
+        pickle.dump((n, edges, start, accepts, state2idx), open(str(cache_dir/args.dfa), 'wb'))
     else:
-        n, edges, start, accepts, state2idx = pickle.load(open(args.dfa, 'rb'))     
+        n, edges, start, accepts, state2idx = pickle.load(open(str(cache_dir/args.dfa), 'rb'))     
 
     if method == 'reduced':
         from model.renode import ReNode, ReLeaf
@@ -58,6 +62,7 @@ if __name__ == '__main__':
     parser.add_argument('--method', type=str, default='reduced', choices=['reduced', 'vanilla'])
     parser.add_argument('--dfa', type=str, default='cache.pkl')
     parser.add_argument('--new', action='store_true')
+    parser.add_argument('--cache', type=str, default='./sampleDFA')
     args = parser.parse_args()
 
     graph, start, accepts, state2idx = get_graph(args, args.method)
