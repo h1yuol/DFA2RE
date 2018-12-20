@@ -1,29 +1,31 @@
-def InteractiveIf(msg=None, no_func=None, divider=True):
-    if msg is None:
-        msg = "Do you want to execute the function?"
-    if no_func is None:
-        def temp_func():
-            print("Ignored!")
-        no_func = temp_func
-    def mainDecorator(yes_func):
-        def wrapper(*args, **kwargs):
-            if divider:
-                print('-'*20)
-            flag = 'a'
-            while flag not in ['y','n']:
-                flag = input("{} (y/n)".format(msg))
-                if flag == 'y':
-                    yes_func(*args, **kwargs)
-                elif flag=='n':
-                    no_func(*args, **kwargs)
-                else:
-                    print("invalid input: {}".format(flag))
-        return wrapper
-    return mainDecorator
+def get_dfa():
+    n = int(input('#states: '))
 
-@InteractiveIf("Do you want to try out testFunc?")
-def testFunc():
-    print("executed testFunc!")
+    states = set()
+    edges = []
+    while True:
+        line = input('src dst value (end up with "EOF"):\n')
+        if line=="EOF":
+            break
+        line = line.split(' ')
+        assert len(line)==3, 'bad input: {}'.format(' '.join(line))
+        states.add(line[0])
+        states.add(line[1])
+        edges.append(line)
+    start = input('name of start state: ')
+    assert start in states
+    accepts = input('list of accept states: ').split(' ')
+    for acc in accepts:
+        assert acc in states
 
-if __name__ == '__main__':
-    testFunc()
+    states = sorted(list(states))
+    state2idx = {state:idx for idx,state in enumerate(states)}
+
+    return n, edges, start, accepts, state2idx
+
+def ConcatSet(st1, st2):
+    tmp = set()
+    for a in st1:
+        for b in st2:
+            tmp.add(a+b)
+    return tmp
