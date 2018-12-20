@@ -79,7 +79,7 @@ def run(graph, verbose, display=True):
 
 if __name__ == '__main__':
     import argparse
-    from IPython import embed
+    # from IPython import embed
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-v', '--verbose', action='store_true')
@@ -102,4 +102,4 @@ if __name__ == '__main__':
         node = node.Or(graph[state2idx[start]][state2idx[acc]])
     print(node)
 
-    embed()
+    # embed()
