@@ -51,6 +51,30 @@ def get_graph(args, method='reduced'):
             graph[i][j] = graph[i][j].Or(ReNode(edge[2]))
 
         return graph, start, accepts, state2idx
+
+def run(graph, verbose, display=True):
+    for k in range(len(graph)):
+        for i in range(len(graph)):
+            for j in range(len(graph)):
+                a = graph[i][k].Concat(graph[k][k].Star())
+                b = a.Concat(graph[k][j])
+                c = graph[i][j].Or(b)
+                if verbose:
+                    print("k={}, i={}, j={}".format(k,i,j))
+                    print("graph[{}][{}] + graph[{}][{}]* = {} + {} = {}".format(i,k,k,k,graph[i][k],graph[k][k].Star(),a))
+                    print("a + graph[{}][{}] = {} + {} = {}".format(k,j,a,graph[k][j],b))
+                    print("graph[{}][{}] | b = {} | {} = {}".format(i,j,graph[i][j],b,c))
+                    print('-'*10)
+                graph[i][j] = c
+        if verbose:
+            print('='*20)
+
+    if display:
+        for i in range(len(graph)):
+            for j in range(len(graph)):
+                print(graph[i][j], end=' ')
+            print('')
+
         
 
 if __name__ == '__main__':
@@ -69,26 +93,7 @@ if __name__ == '__main__':
 
     print('+'*20)
 
-    for k in range(len(graph)):
-        for i in range(len(graph)):
-            for j in range(len(graph)):
-                a = graph[i][k].Concat(graph[k][k].Star())
-                b = a.Concat(graph[k][j])
-                c = graph[i][j].Or(b)
-                if args.verbose:
-                    print("k={}, i={}, j={}".format(k,i,j))
-                    print("graph[{}][{}] + graph[{}][{}]* = {} + {} = {}".format(i,k,k,k,graph[i][k],graph[k][k].Star(),a))
-                    print("a + graph[{}][{}] = {} + {} = {}".format(k,j,a,graph[k][j],b))
-                    print("graph[{}][{}] | b = {} | {} = {}".format(i,j,graph[i][j],b,c))
-                    print('-'*10)
-                graph[i][j] = c
-        if args.verbose:
-            print('='*20)
-
-    for i in range(len(graph)):
-        for j in range(len(graph)):
-            print(graph[i][j], end=' ')
-        print('')
+    run(graph, verbose=args.verbose, display=True)
 
     print('+'*20)
 
