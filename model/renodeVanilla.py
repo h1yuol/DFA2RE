@@ -11,22 +11,20 @@ class ReNodeVanilla(Node):
 
 	def Or(self, b):
 		a = self
-		if a is None and b is None:
-			return ReNodeVanilla(None)
-		if a is None:
+		if a.val is None:
 			return b
-		if b is None:
+		if b.val is None:
 			return a
 		return ReNodeVanilla('({}|{})'.format(a,b))
 
 	def Star(self):
-		if self is None:
+		if self.val is None:
 			return ReNodeVanilla(None)
 		return ReNodeVanilla("({})*".format(self))
 
 	def Concat(self, b):
 		a = self
-		if a is None or b is None:
+		if a.val is None or b.val is None:
 			return ReNodeVanilla(None)
 		if a == 'ε':
 			return b
