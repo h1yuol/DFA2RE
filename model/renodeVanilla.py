@@ -1,4 +1,4 @@
-from node import Node
+from model.node import Node
 
 class ReNodeVanilla(Node):
 	def __init__(self, val):

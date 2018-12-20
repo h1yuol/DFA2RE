@@ -2,8 +2,8 @@ import pickle
 import pdb
 from IPython import embed
 
-from utils import ConcatSet
-from node import Node
+from model.utils import ConcatSet
+from model.node import Node
 
 class ReNode(Node):
 	def __init__(self, opr, *nodes):

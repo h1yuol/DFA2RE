@@ -1,5 +1,5 @@
 import pickle
-from utils import get_dfa
+from model.utils import get_dfa
 
 def get_graph(args, method='reduced'):
     """
@@ -14,7 +14,7 @@ def get_graph(args, method='reduced'):
         n, edges, start, accepts, state2idx = pickle.load(open(args.dfa, 'rb'))     
 
     if method == 'reduced':
-        from renode import ReNode, ReLeaf
+        from model.renode import ReNode, ReLeaf
         graph = {}
         for i in range(n):
             graph[i] = {}
@@ -31,7 +31,7 @@ def get_graph(args, method='reduced'):
         return graph, start, accepts, state2idx
 
     if method == 'vanilla':
-        from renodeVanilla import ReNodeVanilla as ReNode
+        from model.renodeVanilla import ReNodeVanilla as ReNode
         graph = {}
         for i in range(n):
             graph[i] = {}
