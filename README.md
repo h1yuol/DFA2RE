@@ -32,6 +32,7 @@ name of start state: 1
 list of accept states: (separated by white space)
 2
 ```
+The DFA would be stored under the cache dir (the default cache dir is `./sampleDFA`).
 
 The program will output the matrix:
 ```
@@ -42,3 +43,12 @@ and the regex answer:
 ```
 1*0(0|1)*
 ```
+
+Now you can try vanilla method. Since the DFA has been cached, you don't need to input it again.
+```bash
+python3 dfa2re.py --method=vanilla
+# ((0|((ε|1)|(ε|1)((ε|1))*(ε|1))(((ε|1)|(ε|1)((ε|1))*(ε|1)))*0)|(0|((ε|1)|(ε|1)((ε|1))*(ε|1))(((ε|1)|(ε|1)((ε|1))*(ε|1)))*0)(((ε|0)|1))*((ε|0)|1))
+```
+
+## Attention
+If you choose `--method=reduced`, the key step is the `|` operation, i.e. the speed of the program depends on the comparison between `α` and `β` in regex `α|β`. Notice that the time complexity grows exponentially, so it only works for simple DFA. 
