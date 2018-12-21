@@ -1,6 +1,7 @@
 import pickle
 from model.utils import get_dfa
 from pathlib import Path
+import pdb
 
 def get_graph(args, method='reduced'):
     """
@@ -56,17 +57,20 @@ def run(graph, verbose, display=True):
     for k in range(len(graph)):
         for i in range(len(graph)):
             for j in range(len(graph)):
-                a = graph[i][k].Concat(graph[k][k].Star())
-                b = a.Concat(graph[k][j])
-                c = graph[i][j].Or(b)
-                if verbose:
+                if verbose>=1:
                     print("k={}, i={}, j={}".format(k,i,j))
+                a = graph[i][k].Concat(graph[k][k].Star())
+                if verbose>=2:
                     print("graph[{}][{}] + graph[{}][{}]* = {} + {} = {}".format(i,k,k,k,graph[i][k],graph[k][k].Star(),a))
+                b = a.Concat(graph[k][j])
+                if verbose>=2:
                     print("a + graph[{}][{}] = {} + {} = {}".format(k,j,a,graph[k][j],b))
+                c = graph[i][j].Or(b)
+                if verbose>=2:
                     print("graph[{}][{}] | b = {} | {} = {}".format(i,j,graph[i][j],b,c))
                     print('-'*10)
                 graph[i][j] = c
-        if verbose:
+        if verbose>=2:
             print('='*20)
 
     if display:
@@ -82,7 +86,7 @@ if __name__ == '__main__':
     # from IPython import embed
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-v', '--verbose', action='store_true', help='show extra information')
+    parser.add_argument('-v', '--verbose', type=int, default=0, help='show extra information')
     parser.add_argument('--method', type=str, default='reduced', choices=['reduced', 'vanilla'], help='choose a method to convert dfa to regex')
     parser.add_argument('--dfa', type=str, default='cache.pkl', help="name of the dfa cache file")
     parser.add_argument('--new', action='store_true', help='whether to input a new dfa')
