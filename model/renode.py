@@ -152,6 +152,9 @@ class ReNode(Node):
 				return ReLeaf(None)
 			if len(bSet) == 1 and "" in bSet:
 				return a
+			if not isinstance(b, ReLeaf) and b.opr == '|':
+				b1, b2 = b.nodes
+				return a.Concat(b1).Or(a.Concat(b2))
 			return ReNode('+', a, b)
 		elif a.opr=='|':
 			a1, a2 = a.nodes
