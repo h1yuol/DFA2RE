@@ -12,7 +12,7 @@ Use `python3 dfa2re.py --help` to see details of the options.
 ![example DFA image](./sampleDFA/example.png) 
 
 Run
-```python3
+```bash
 python3 dfa2re.py --new
 ```
 Then, input the above DFA:
