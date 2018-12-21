@@ -14,7 +14,7 @@ def get_dfa():
         edges.append(line)
     start = input('name of start state: ')
     assert start in states
-    accepts = input('list of accept states: (separated by white space)').split(' ')
+    accepts = input('list of accept states: (separated by white space)\n').split(' ')
     for acc in accepts:
         assert acc in states
 
