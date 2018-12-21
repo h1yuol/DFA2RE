@@ -4,7 +4,7 @@ def get_dfa():
     states = set()
     edges = []
     while True:
-        line = input('src dst value (end up with "EOF"):\n')
+        line = input('src dst value (input "EOF" to break):\n')
         if line=="EOF":
             break
         line = line.split(' ')
@@ -14,7 +14,7 @@ def get_dfa():
         edges.append(line)
     start = input('name of start state: ')
     assert start in states
-    accepts = input('list of accept states: ').split(' ')
+    accepts = input('list of accept states: (separated by white space)').split(' ')
     for acc in accepts:
         assert acc in states
 
