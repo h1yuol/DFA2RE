@@ -1,7 +1,7 @@
 import pickle
 from model.utils import get_dfa
 from pathlib import Path
-import pdb
+# import pdb
 
 def get_graph(args, method='reduced'):
     """

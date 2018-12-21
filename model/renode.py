@@ -41,7 +41,7 @@ class ReNode(Node):
 		else:
 			assert len(nodes) == 2
 
-	def enum(self, num=3):
+	def enum(self, num=2):
 		if isinstance(self, ReLeaf):
 			if self.val is None:
 				return set(), False
@@ -98,12 +98,14 @@ class ReNode(Node):
 			if bInfinite:
 				aSet, aInfinite = a.enum(2)
 				if aInfinite:
-					superASet, __ = a.enum(2+1)
-					if superASet >= bSet:
-						return a
-					superBSet, __ = b.enum(2+1)
-					if superBSet >= aSet:
-						return b
+					if len(aSet)<1500:
+						superASet, __ = a.enum(2+1)
+						if superASet >= bSet:
+							return a
+					if len(bSet)<1500:
+						superBSet, __ = b.enum(2+1)
+						if superBSet >= aSet:
+							return b
 					return ReNode('|', a, b)
 				else:
 					if bSet>=aSet:
