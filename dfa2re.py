@@ -82,11 +82,11 @@ if __name__ == '__main__':
     # from IPython import embed
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-v', '--verbose', action='store_true')
-    parser.add_argument('--method', type=str, default='reduced', choices=['reduced', 'vanilla'])
-    parser.add_argument('--dfa', type=str, default='cache.pkl')
-    parser.add_argument('--new', action='store_true')
-    parser.add_argument('--cache', type=str, default='./sampleDFA')
+    parser.add_argument('-v', '--verbose', action='store_true', help='show extra information')
+    parser.add_argument('--method', type=str, default='reduced', choices=['reduced', 'vanilla'], help='choose a method to convert dfa to regex')
+    parser.add_argument('--dfa', type=str, default='cache.pkl', help="name of the dfa cache file")
+    parser.add_argument('--new', action='store_true', help='whether to input a new dfa')
+    parser.add_argument('--cache', type=str, default='./sampleDFA', help='directory to store dfa')
     args = parser.parse_args()
 
     graph, start, accepts, state2idx = get_graph(args, args.method)
